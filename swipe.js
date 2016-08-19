@@ -243,7 +243,9 @@ function Swipe(container, options) {
       switch (event.type) {
         case 'touchstart': this.start(event); break;
         case 'touchmove': this.move(event); break;
-        case 'touchend': offloadFn(this.end(event)); break;
+        case 'touchend': 
+        case 'touchcancel':  
+          offloadFn(this.end(event)); break;
         case 'webkitTransitionEnd':
         case 'msTransitionEnd':
         case 'oTransitionEnd':
@@ -280,7 +282,7 @@ function Swipe(container, options) {
       // attach touchmove and touchend listeners
       element.addEventListener('touchmove', this, false);
       element.addEventListener('touchend', this, false);
-
+      element.addEventListener('touchcancel', this, false);
     },
     move: function(event) {
 
@@ -419,7 +421,7 @@ function Swipe(container, options) {
       // kill touchmove and touchend event listeners until touchstart called again
       element.removeEventListener('touchmove', events, false)
       element.removeEventListener('touchend', events, false)
-
+      element.removeEventListener('touchcancel', events, false)
     },
     transitionEnd: function(event) {
 
